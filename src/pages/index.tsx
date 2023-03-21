@@ -1,13 +1,14 @@
 import Image from "next/image";
+import { GetStaticProps } from "next";
 
 import { useKeenSlider } from 'keen-slider/react'
+import 'keen-slider/keen-slider.min.css'
 
 import { HomeContainer, Product } from "../styles/pages/home";
 
-import 'keen-slider/keen-slider.min.css'
 import { stripe } from "../lib/stripe";
-import { GetStaticProps } from "next";
 import Stripe from "stripe";
+
 import { dateFormatter } from "../utils/dateFormatter";
 
 interface HomeProps {
@@ -31,14 +32,18 @@ export default function Home({products}: HomeProps) {
     <HomeContainer ref={sliderRef} className="keen-slider">
       {products.map(product => {
         return (
-          <Product key={product.id} className="keen-slider__slide">
-          <Image src={product.imageUrl} width={520} height={480} alt="camiseta com estampa de um foguete decolando"/>
-  
-          <footer>
-            <strong>{product.name}</strong>
-            <span>{dateFormatter(product.price)}</span>
-          </footer>
-        </Product>
+            <Product
+              key={product.id}
+              href={`/product/${product.id}`} 
+              className="keen-slider__slide"
+            >
+              <Image src={product.imageUrl} width={520} height={480} alt="" />
+      
+              <footer>
+                <strong>{product.name}</strong>
+                <span>{dateFormatter(product.price)}</span>
+              </footer>
+            </Product>
         )
       })}
     </HomeContainer>
