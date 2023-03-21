@@ -8,6 +8,7 @@ import 'keen-slider/keen-slider.min.css'
 import { stripe } from "../lib/stripe";
 import { GetStaticProps } from "next";
 import Stripe from "stripe";
+import { dateFormatter } from "../utils/dateFormatter";
 
 interface HomeProps {
   products: {
@@ -35,7 +36,7 @@ export default function Home({products}: HomeProps) {
   
           <footer>
             <strong>{product.name}</strong>
-            <span>{`R$ ${product.price /100}`}</span>
+            <span>{dateFormatter(product.price)}</span>
           </footer>
         </Product>
         )
@@ -51,12 +52,12 @@ export const getStaticProps: GetStaticProps = async() => {
 
   const products = response.data.map(product => {
     const price = product.default_price as Stripe.Price
+    
     return {
       id: product.id,
       name: product.name,
       imageUrl: product.images[0],
       price: price.unit_amount,
-
     }
   })
   return {
