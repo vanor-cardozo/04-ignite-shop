@@ -9,7 +9,7 @@ import { HomeContainer, Product } from "../styles/pages/home";
 import { stripe } from "../lib/stripe";
 import Stripe from "stripe";
 
-import { dateFormatter } from "../utils/dateFormatter";
+import { currencyFormatter } from "../utils/currencyFormatter";
 
 interface HomeProps {
   products: {
@@ -41,7 +41,7 @@ export default function Home({products}: HomeProps) {
       
               <footer>
                 <strong>{product.name}</strong>
-                <span>{dateFormatter(product.price)}</span>
+                <span>{currencyFormatter(product.price)}</span>
               </footer>
             </Product>
         )
