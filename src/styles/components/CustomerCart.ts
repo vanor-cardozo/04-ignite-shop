@@ -36,7 +36,6 @@ export const CartContainer = styled('div',{
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
-    justifyContent: 'space-between',
     overflowY: 'scroll',
     marginTop: '2rem',
 
@@ -131,6 +130,11 @@ export const CartFooter = styled('div', {
 
         '&:hover': {
             background: '$green300',
+        },
+
+        '&:disabled': {
+            background: '$gray300',
+            cursor: 'not-allowed'
         }
     }
 })

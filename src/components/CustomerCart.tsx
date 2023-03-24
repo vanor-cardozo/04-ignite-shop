@@ -57,7 +57,7 @@ export function CustomerCart() {
                             <strong>Valor total</strong>
                             <strong>{totalValue}</strong>
                         </span>
-                        <button>
+                        <button disabled={customerCartItems.length > 0 ? false : true}>
                             Finalizar compra
                         </button>
                     </CartFooter>
