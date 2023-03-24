@@ -6,15 +6,16 @@ import Image from "next/image"
 import { useRouter } from "next/router"
 import Stripe from "stripe"
 import axios from 'axios'
-import { useState } from "react"
+import { useContext, useState } from "react"
 import Head from "next/head"
+import { CartItem, CustomerCartContext } from "@/src/contexts/CustomerCartContext"
 
 
 interface ProductsProps {
     product: {
         id: string
         name: string
-        imageUrl: string
+        imageUrl: HTMLImageElement
         price: number
         description: string
         defaultPriceId: string
@@ -22,6 +23,7 @@ interface ProductsProps {
 }
 
 export default function Product({ product }: ProductsProps) {
+    const { customerCartItems, setCustomerCartItems } = useContext(CustomerCartContext)
     const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
     const { isFallback } = useRouter()
 
@@ -47,6 +49,10 @@ export default function Product({ product }: ProductsProps) {
         }
     }
 
+    function addItemToCustomerCart(item: CartItem){
+        setCustomerCartItems([...customerCartItems, item])
+    }
+
     return(
         <>
             <Head>
@@ -63,8 +69,8 @@ export default function Product({ product }: ProductsProps) {
 
                     <p>{product.description}</p>
 
-                    <button disabled={isCreatingCheckoutSession} onClick={() => handleBuyProduct()} >
-                        comprar agora
+                    <button disabled={isCreatingCheckoutSession} onClick={() => addItemToCustomerCart(product)} >
+                        Colocar na sacola
                     </button>
                 </ProductDetails>
             </ProductContainer>
