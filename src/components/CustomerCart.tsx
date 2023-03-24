@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { useContext } from 'react'
 import { CustomerCartContext } from '../contexts/CustomerCartContext'
 import { currencyFormatter } from '../utils/currencyFormatter'
+import axios from 'axios'
 
 export function CustomerCart() {
     const { customerCartItems, setCustomerCartItems, totalCartValue } = useContext(CustomerCartContext)
@@ -13,6 +14,29 @@ export function CustomerCart() {
 
     function removeCartItem(id){
         setCustomerCartItems(customerCartItems.filter(item => item.id !== id))
+    }
+
+    async function handleBuyProduct() {
+        const productsSelected = customerCartItems.map((item)=> (
+            {
+                price: item.defaultPriceId,
+                quantity: 1,
+            }
+        ))
+        try {
+            // setIsCreatingCheckoutSession(true)
+            const response = await axios.post('/api/checkout', {
+                products: productsSelected,
+            })
+
+            const { checkoutUrl } = response.data
+
+            window.location.href = checkoutUrl
+        } catch (err) {
+        // recomendado utilizar uma ferramenta de Observabilidade **Datadog / Sentry
+            // setIsCreatingCheckoutSession(false)
+            alert('Falha ao redirecionar ao checkout!')
+        }
     }
 
     return(
@@ -57,7 +81,10 @@ export function CustomerCart() {
                             <strong>Valor total</strong>
                             <strong>{totalValue}</strong>
                         </span>
-                        <button disabled={customerCartItems.length > 0 ? false : true}>
+                        <button 
+                            disabled={customerCartItems.length > 0 ? false : true}
+                            onClick={()=> handleBuyProduct()}
+                        >
                             Finalizar compra
                         </button>
                     </CartFooter>
