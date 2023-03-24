@@ -1,5 +1,11 @@
 import { styled } from "..";
 import * as Dialog from '@radix-ui/react-dialog'
+import { keyframes } from "@stitches/react";
+
+const slide = keyframes({
+    '0%': { transform: 'translateX(100%)' },
+    '100%': { transform: 'translateX(0%)' },
+});
 
 export const CartContent = styled(Dialog.Content, {
     background: '$gray800',
@@ -10,7 +16,8 @@ export const CartContent = styled(Dialog.Content, {
     right: 0,
     width:'480px',
     height: '100%',
-    padding: '3rem'
+    padding: '3rem',
+    animation: `${slide} 500ms`
 })
 
 export const CartClose = styled(Dialog.Close, {
