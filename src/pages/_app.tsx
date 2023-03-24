@@ -6,18 +6,24 @@ import { Container, Header } from "../styles/pages/app";
 
 import Image from "next/image";
 import { CustomerCart } from "../components/CustomerCart";
+import { CustomerCartProvider } from "../contexts/CustomerCartContext";
+import Link from "next/link";
 
 globalStyles();
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
   <Container>
-    <Header>
-      <Image src={logoImg.src} width={130} height={60} alt=""/>
-      <CustomerCart />
-    </Header>
+    <CustomerCartProvider>
+      <Header>
+        <Link href={'/'}>
+          <Image src={logoImg.src} width={130} height={60} alt=""/>
+        </Link>
+        <CustomerCart />
+      </Header>
 
-    <Component {...pageProps} />
+      <Component {...pageProps} />
+    </CustomerCartProvider>
   </Container>
   )
 }
